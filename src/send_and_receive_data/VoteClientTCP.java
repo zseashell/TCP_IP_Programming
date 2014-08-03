@@ -22,6 +22,42 @@ public class VoteClientTCP {
 		
 		// change bin to text for a different framing strategy
 		VoteMsgCoder coder = new VoteMsgBinCoder();
+		// encoding
+		Framer framer = new LengthFramer(socket.getInputStream());
+		
+		// create inquiry request
+		VoteMsg voteMsg = new VoteMsg(false, true, CANDIDATEID, 0);
+		byte[] encodeMsg = coder.toWire(voteMsg);
+		
+		// send inquiry request
+		System.out.println("Sending inquiry message " + encodeMsg.length + " bytes");
+		System.out.println(voteMsg);
+		framer.frameMsg(encodeMsg, out);
+		
+		// send a vote
+		voteMsg.setInquiry(false);
+		encodeMsg = coder.toWire(voteMsg);
+		System.out.println("Sending a vote " + encodeMsg.length + " bytes");
+		System.out.println(voteMsg);
+		framer.frameMsg(encodeMsg, out);
+		
+		// receive inquiry response
+		encodeMsg = framer.nextMsg();
+		voteMsg = coder.fromWire(encodeMsg);
+		System.out.println("Received response message " + encodeMsg.length + " bytes");
+		System.out.println(voteMsg);
+		
+		// receive vote response
+		encodeMsg = framer.nextMsg();
+		voteMsg = coder.fromWire(encodeMsg);
+		System.out.println("Received response message " + encodeMsg.length + " bytes");
+		System.out.println(voteMsg);
+		
+		socket.close();
+		
+		
+		
+		
 	}
 
 }

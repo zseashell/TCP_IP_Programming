@@ -8,7 +8,7 @@ public class VoteService {
 	// map of candidates to number of votes
 	private Map<Integer, Long> results = new HashMap<>();
 
-	public VoteMsg HandleRequest(VoteMsg msg) {
+	public VoteMsg handleRequest(VoteMsg msg) {
 		if (msg.isResponse()) { // if response, just send it back
 			return msg;
 		}
