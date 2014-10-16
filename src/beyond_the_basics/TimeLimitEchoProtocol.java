@@ -44,6 +44,7 @@ public class TimeLimitEchoProtocol implements Runnable {
 			clntSocket.setSoTimeout(timeBoundMillis);
 			while ((timeBoundMillis > 0)
 					&& ((revcvMsgSize = in.read(buffer)) != -1)) {
+			    // write block is determined by receiving application
 				out.write(buffer, 0, revcvMsgSize);
 				totalMsgSize += revcvMsgSize;
 				timeBoundMillis = (int) (endTime - System.currentTimeMillis());
