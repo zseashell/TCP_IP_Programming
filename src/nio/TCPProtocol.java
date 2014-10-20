@@ -1,4 +1,4 @@
-package beyond_the_basics;
+package nio;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
